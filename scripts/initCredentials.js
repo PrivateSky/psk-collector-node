@@ -40,7 +40,6 @@ const req = http.request(options, (res) => {
             const token = response.auth.token;
 
             writeTokenToLocalConfigSync(token);
-            fs.writeFileSync(configPath, token);
         }
     })
 });
