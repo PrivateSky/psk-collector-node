@@ -4,7 +4,7 @@ const fs = require('fs');
 const baseApi = '/api/v2/setup';
 
 const data = JSON.stringify({
-    bucket: '_base',
+    bucket: 'base',
     org: 'PrivateSky',
     username: 'admin',
     password: 'pskadmin',
