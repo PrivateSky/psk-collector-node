@@ -27,10 +27,14 @@ const req = http.request(options, (res) => {
     res.on('data', (resData) => {
         const response = JSON.parse(resData);
 
+        console.log('response: ', response);
         if(response.auth) {
             const configPath = path.resolve(path.join(__dirname, '../config.json'));
+            console.log('writing to', configPath);
             const config = JSON.parse(fs.readFileSync(configPath));
             config.databaseAuthToken = response.auth.token || "";
+
+            console.log('writing data:', JSON.stringify(config));
             fs.writeFileSync(configPath, JSON.stringify(config,  null, 2));
         }
     })
