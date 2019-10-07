@@ -3,6 +3,13 @@ const fs = require('fs');
 const path = require('path');
 
 const baseApi = '/api/v2/setup';
+const tokenPath = '/root/.influxdbv2/psk-config-token.txt';
+
+if(fs.existsSync(tokenPath)) {
+    const token = fs.readFileSync(tokenPath).toString();
+    writeTokenToLocalConfigSync(token);
+    process.exit(0);
+}
 
 const data = JSON.stringify({
     bucket: 'base',
@@ -29,13 +36,10 @@ const req = http.request(options, (res) => {
 
         console.log('response: ', response);
         if(response.auth) {
-            const configPath = path.resolve(path.join(__dirname, '../config.json'));
-            console.log('writing to', configPath);
-            const config = JSON.parse(fs.readFileSync(configPath));
-            config.databaseAuthToken = response.auth.token || "";
+            const token = response.auth.token;
 
-            console.log('writing data:', JSON.stringify(config));
-            fs.writeFileSync(configPath, JSON.stringify(config,  null, 2));
+            writeTokenToLocalConfigSync(token);
+            fs.writeFileSync(tokenPath, token);
         }
     })
 });
@@ -43,6 +47,14 @@ const req = http.request(options, (res) => {
 req.on('error', (error) => {
     console.error(error)
 });
+
+function writeTokenToLocalConfigSync(token) {
+    const configPath = path.resolve(path.join(__dirname, '../config.json'));
+    const config = JSON.parse(fs.readFileSync(configPath));
+
+    config.databaseAuthToken = token || "";
+    fs.writeFileSync(configPath, JSON.stringify(config,  null, 2));
+}
 
 req.write(data);
 req.end();
