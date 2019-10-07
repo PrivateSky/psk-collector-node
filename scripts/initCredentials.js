@@ -3,11 +3,11 @@ const fs = require('fs');
 const path = require('path');
 
 const baseApi = '/api/v2/setup';
-const tokenPath = '/root/.influxdbv2/psk-config-token.txt';
+const configPath = '/root/.influxdbv2/psk-init-config.json';
 
-if(fs.existsSync(tokenPath)) {
-    const token = fs.readFileSync(tokenPath).toString();
-    writeTokenToLocalConfigSync(token);
+if(fs.existsSync(configPath)) {
+    const config = JSON.parse(fs.readFileSync(configPath).toString());
+    writeTokenToLocalConfigSync(config.auth.token);
     process.exit(0);
 }
 
@@ -34,12 +34,13 @@ const req = http.request(options, (res) => {
     res.on('data', (resData) => {
         const response = JSON.parse(resData);
 
+        fs.writeFileSync(configPath, JSON.stringify(response));
         console.log('response: ', response);
         if(response.auth) {
             const token = response.auth.token;
 
             writeTokenToLocalConfigSync(token);
-            fs.writeFileSync(tokenPath, token);
+            fs.writeFileSync(configPath, token);
         }
     })
 });
