@@ -1,5 +1,6 @@
 const http = require('http');
 const fs = require('fs');
+const path = require('path');
 
 const baseApi = '/api/v2/setup';
 
@@ -23,16 +24,14 @@ const options = {
 };
 
 const req = http.request(options, (res) => {
-    console.log(`statusCode: ${res.statusCode}`);
-
     res.on('data', (resData) => {
-        console.log('got data', resData.toString());
         const response = JSON.parse(resData);
 
         if(response.auth) {
-            const config = JSON.parse(fs.readFileSync('../config.json'));
+            const configPath = path.resolve(path.join(__dirname, '../config.json'));
+            const config = JSON.parse(fs.readFileSync(configPath));
             config.databaseAuthToken = response.auth.token || "";
-            fs.writeFileSync('../config.json', JSON.stringify(config));
+            fs.writeFileSync(configPath, JSON.stringify(config,  null, 2));
         }
     })
 });
