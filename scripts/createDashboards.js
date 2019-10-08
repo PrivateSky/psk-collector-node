@@ -92,7 +92,7 @@ function createCellsForDashboard(dashboardId, dashboardData) {
         const options = {
             hostname: '127.0.0.1',
             port: 9999,
-            path: `baseApi/${dashboardId}/cells`,
+            path: `${baseApi}/${dashboardId}/cells`,
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -103,7 +103,7 @@ function createCellsForDashboard(dashboardId, dashboardData) {
 
         const req = http.request(options, (res) => {
             res.on('data', (resData) => {
-                console.log('got data', resData.toString());
+                console.log('got data from cell call', resData.toString());
                 const response = JSON.parse(resData.toString());
 
                 const cellId = response.id;
@@ -126,7 +126,7 @@ function sendViewForCell(dashboardId, cellId, viewData) {
     const options = {
         hostname: '127.0.0.1',
         port: 9999,
-        path: `baseApi/${dashboardId}/cells/${cellId}`,
+        path: `${baseApi}/${dashboardId}/cells/${cellId}`,
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
