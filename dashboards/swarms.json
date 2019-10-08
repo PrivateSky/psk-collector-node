@@ -1,0 +1,345 @@
+{
+ "meta": {
+  "version": "1",
+  "type": "dashboard",
+  "name": "Swarms-Template",
+  "description": "template created from dashboard: Swarms"
+ },
+ "content": {
+  "data": {
+   "type": "dashboard",
+   "attributes": {
+    "name": "Swarms",
+    "description": ""
+   },
+   "relationships": {
+    "label": {
+     "data": []
+    },
+    "cell": {
+     "data": [
+      {
+       "type": "cell",
+       "id": "04886635d91cc000"
+      },
+      {
+       "type": "cell",
+       "id": "048d85d2f7153000"
+      },
+      {
+       "type": "cell",
+       "id": "048d8f8a7b553000"
+      }
+     ]
+    },
+    "variable": {
+     "data": []
+    }
+   }
+  },
+  "included": [
+   {
+    "id": "04886635d91cc000",
+    "type": "cell",
+    "attributes": {
+     "x": 0,
+     "y": 0,
+     "w": 4,
+     "h": 5
+    },
+    "relationships": {
+     "view": {
+      "data": {
+       "type": "view",
+       "id": "04886635d91cc000"
+      }
+     }
+    }
+   },
+   {
+    "id": "048d85d2f7153000",
+    "type": "cell",
+    "attributes": {
+     "x": 6,
+     "y": 0,
+     "w": 6,
+     "h": 5
+    },
+    "relationships": {
+     "view": {
+      "data": {
+       "type": "view",
+       "id": "048d85d2f7153000"
+      }
+     }
+    }
+   },
+   {
+    "id": "048d8f8a7b553000",
+    "type": "cell",
+    "attributes": {
+     "x": 0,
+     "y": 5,
+     "w": 12,
+     "h": 6
+    },
+    "relationships": {
+     "view": {
+      "data": {
+       "type": "view",
+       "id": "048d8f8a7b553000"
+      }
+     }
+    }
+   },
+   {
+    "type": "view",
+    "id": "04886635d91cc000",
+    "attributes": {
+     "name": "Swarm calls by type",
+     "properties": {
+      "shape": "chronograf-v2",
+      "queries": [
+       {
+        "text": "from(bucket: \"swarms\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"call\")\n  |> group(columns: [\"swarmTypeName\"], mode:\"by\")\n  |> window(every: 5s, timeColumn: \"_time\", startColumn: \"_start\", stopColumn: \"_stop\")\n  |> count(column: \"_value\")\n  |> group(columns: [\"swarmTypeName\"], mode:\"by\")",
+        "editMode": "advanced",
+        "name": "",
+        "builderConfig": {
+         "buckets": [],
+         "tags": [
+          {
+           "key": "_measurement",
+           "values": []
+          }
+         ],
+         "functions": [],
+         "aggregateWindow": {
+          "period": "auto"
+         }
+        }
+       }
+      ],
+      "axes": {
+       "x": {
+        "bounds": [
+         "",
+         ""
+        ],
+        "label": "",
+        "prefix": "",
+        "suffix": "",
+        "base": "10",
+        "scale": "linear"
+       },
+       "y": {
+        "bounds": [
+         "",
+         ""
+        ],
+        "label": "",
+        "prefix": "",
+        "suffix": "",
+        "base": "10",
+        "scale": "linear"
+       }
+      },
+      "type": "xy",
+      "legend": {},
+      "geom": "step",
+      "colors": [
+       {
+        "id": "89c59d10-22bd-438f-99de-0ace2b51a77e",
+        "type": "scale",
+        "hex": "#31C0F6",
+        "name": "Nineteen Eighty Four",
+        "value": 0
+       },
+       {
+        "id": "79ed0b33-00e6-43e9-83a0-d1c076877c11",
+        "type": "scale",
+        "hex": "#A500A5",
+        "name": "Nineteen Eighty Four",
+        "value": 0
+       },
+       {
+        "id": "09e96b21-344f-4b05-817d-aa362bb47ad0",
+        "type": "scale",
+        "hex": "#FF7E27",
+        "name": "Nineteen Eighty Four",
+        "value": 0
+       }
+      ],
+      "note": "",
+      "showNoteWhenEmpty": false,
+      "xColumn": "_stop",
+      "yColumn": "_value",
+      "shadeBelow": true
+     }
+    }
+   },
+   {
+    "type": "view",
+    "id": "048d85d2f7153000",
+    "attributes": {
+     "name": "Swarm calls by Node",
+     "properties": {
+      "shape": "chronograf-v2",
+      "type": "histogram",
+      "queries": [
+       {
+        "text": "from(bucket: \"swarms\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"call\")\n  |> group(columns: [\"nodeName\"], mode:\"by\")\n\n  \n  ",
+        "editMode": "advanced",
+        "name": "",
+        "builderConfig": {
+         "buckets": [],
+         "tags": [
+          {
+           "key": "_measurement",
+           "values": []
+          }
+         ],
+         "functions": [],
+         "aggregateWindow": {
+          "period": "auto"
+         }
+        }
+       }
+      ],
+      "colors": [
+       {
+        "id": "f98566b0-eaf3-42a3-823b-27c7a41b0251",
+        "type": "scale",
+        "hex": "#31C0F6",
+        "name": "Nineteen Eighty Four",
+        "value": 0
+       },
+       {
+        "id": "eab43bd3-4f62-45f5-9286-7d6a38cacc9d",
+        "type": "scale",
+        "hex": "#A500A5",
+        "name": "Nineteen Eighty Four",
+        "value": 0
+       },
+       {
+        "id": "85c86409-9150-47b5-bc07-41a8f8c689eb",
+        "type": "scale",
+        "hex": "#FF7E27",
+        "name": "Nineteen Eighty Four",
+        "value": 0
+       }
+      ],
+      "xColumn": "_time",
+      "fillColumns": [
+       "nodeName"
+      ],
+      "xAxisLabel": "",
+      "position": "stacked",
+      "binCount": 100,
+      "note": "",
+      "showNoteWhenEmpty": false
+     }
+    }
+   },
+   {
+    "type": "view",
+    "id": "048d8f8a7b553000",
+    "attributes": {
+     "name": "Swarm calls by type and node",
+     "properties": {
+      "shape": "chronograf-v2",
+      "type": "table",
+      "queries": [
+       {
+        "text": "from(bucket: \"swarms\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"call\")\n  |> group(columns: [\"swarmTypeName\", \"nodeName\"], mode:\"by\")\n  |> window(every: 5s, timeColumn: \"_time\", startColumn: \"_start\", stopColumn: \"_stop\")\n  |> count(column: \"_value\")\n  |> group(columns: [\"swarmTypeName\", \"nodeName\"], mode:\"by\")",
+        "editMode": "advanced",
+        "name": "",
+        "builderConfig": {
+         "buckets": [],
+         "tags": [
+          {
+           "key": "_measurement",
+           "values": []
+          }
+         ],
+         "functions": [],
+         "aggregateWindow": {
+          "period": "auto"
+         }
+        }
+       }
+      ],
+      "colors": [
+       {
+        "id": "base",
+        "type": "text",
+        "hex": "#00C9FF",
+        "name": "laser",
+        "value": 0
+       }
+      ],
+      "tableOptions": {
+       "verticalTimeAxis": true,
+       "sortBy": {
+        "internalName": "",
+        "displayName": "",
+        "visible": false
+       },
+       "wrapping": "",
+       "fixFirstColumn": false
+      },
+      "fieldOptions": [
+       {
+        "internalName": "",
+        "displayName": "",
+        "visible": true
+       },
+       {
+        "internalName": "result",
+        "displayName": "result",
+        "visible": true
+       },
+       {
+        "internalName": "table",
+        "displayName": "table",
+        "visible": true
+       },
+       {
+        "internalName": "_start",
+        "displayName": "_start",
+        "visible": true
+       },
+       {
+        "internalName": "_stop",
+        "displayName": "_stop",
+        "visible": true
+       },
+       {
+        "internalName": "nodeName",
+        "displayName": "nodeName",
+        "visible": true
+       },
+       {
+        "internalName": "swarmTypeName",
+        "displayName": "swarmTypeName",
+        "visible": true
+       },
+       {
+        "internalName": "_value",
+        "displayName": "_value",
+        "visible": true
+       }
+      ],
+      "timeFormat": "YYYY-MM-DD HH:mm:ss",
+      "decimalPlaces": {
+       "isEnforced": false,
+       "digits": 2
+      },
+      "note": "",
+      "showNoteWhenEmpty": false
+     }
+    }
+   }
+  ]
+ },
+ "labels": []
+}

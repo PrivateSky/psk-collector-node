@@ -1,0 +1,530 @@
+{
+ "meta": {
+  "version": "1",
+  "type": "dashboard",
+  "name": "Resource usage-Template",
+  "description": "template created from dashboard: Resource usage"
+ },
+ "content": {
+  "data": {
+   "type": "dashboard",
+   "attributes": {
+    "name": "Resource usage",
+    "description": ""
+   },
+   "relationships": {
+    "label": {
+     "data": []
+    },
+    "cell": {
+     "data": [
+      {
+       "type": "cell",
+       "id": "0488b075f75cc000"
+      },
+      {
+       "type": "cell",
+       "id": "048c31dd1207e000"
+      },
+      {
+       "type": "cell",
+       "id": "048c89b88a47e000"
+      },
+      {
+       "type": "cell",
+       "id": "048d9b5959553000"
+      },
+      {
+       "type": "cell",
+       "id": "048da23bdc953000"
+      }
+     ]
+    },
+    "variable": {
+     "data": []
+    }
+   }
+  },
+  "included": [
+   {
+    "id": "0488b075f75cc000",
+    "type": "cell",
+    "attributes": {
+     "x": 0,
+     "y": 0,
+     "w": 4,
+     "h": 4
+    },
+    "relationships": {
+     "view": {
+      "data": {
+       "type": "view",
+       "id": "0488b075f75cc000"
+      }
+     }
+    }
+   },
+   {
+    "id": "048c31dd1207e000",
+    "type": "cell",
+    "attributes": {
+     "x": 4,
+     "y": 0,
+     "w": 4,
+     "h": 4
+    },
+    "relationships": {
+     "view": {
+      "data": {
+       "type": "view",
+       "id": "048c31dd1207e000"
+      }
+     }
+    }
+   },
+   {
+    "id": "048c89b88a47e000",
+    "type": "cell",
+    "attributes": {
+     "x": 8,
+     "y": 0,
+     "w": 4,
+     "h": 4
+    },
+    "relationships": {
+     "view": {
+      "data": {
+       "type": "view",
+       "id": "048c89b88a47e000"
+      }
+     }
+    }
+   },
+   {
+    "id": "048d9b5959553000",
+    "type": "cell",
+    "attributes": {
+     "x": 0,
+     "y": 4,
+     "w": 4,
+     "h": 4
+    },
+    "relationships": {
+     "view": {
+      "data": {
+       "type": "view",
+       "id": "048d9b5959553000"
+      }
+     }
+    }
+   },
+   {
+    "id": "048da23bdc953000",
+    "type": "cell",
+    "attributes": {
+     "x": 4,
+     "y": 4,
+     "w": 4,
+     "h": 4
+    },
+    "relationships": {
+     "view": {
+      "data": {
+       "type": "view",
+       "id": "048da23bdc953000"
+      }
+     }
+    }
+   },
+   {
+    "type": "view",
+    "id": "0488b075f75cc000",
+    "attributes": {
+     "name": "CPU Usage",
+     "properties": {
+      "shape": "chronograf-v2",
+      "queries": [
+       {
+        "text": "from(bucket: \"resources\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"usedByNodes\")\n  |> filter(fn: (r) => r._field == \"cpuPercentage\")\n  |> group(columns: [\"nodeName\"], mode:\"by\")",
+        "editMode": "advanced",
+        "name": "",
+        "builderConfig": {
+         "buckets": [],
+         "tags": [
+          {
+           "key": "_measurement",
+           "values": []
+          }
+         ],
+         "functions": [],
+         "aggregateWindow": {
+          "period": "auto"
+         }
+        }
+       }
+      ],
+      "axes": {
+       "x": {
+        "bounds": [
+         "",
+         ""
+        ],
+        "label": "",
+        "prefix": "",
+        "suffix": "",
+        "base": "10",
+        "scale": "linear"
+       },
+       "y": {
+        "bounds": [
+         "0",
+         "100"
+        ],
+        "label": "",
+        "prefix": "",
+        "suffix": "",
+        "base": "10",
+        "scale": "linear"
+       }
+      },
+      "type": "xy",
+      "legend": {},
+      "geom": "monotoneX",
+      "colors": [
+       {
+        "id": "9d6e2e13-8e6b-401d-8e40-08e7f6c0d172",
+        "type": "scale",
+        "hex": "#31C0F6",
+        "name": "Nineteen Eighty Four",
+        "value": 0
+       },
+       {
+        "id": "8e542f64-de19-4b58-968f-16fac975cda7",
+        "type": "scale",
+        "hex": "#A500A5",
+        "name": "Nineteen Eighty Four",
+        "value": 0
+       },
+       {
+        "id": "452bea3b-2ba1-41ee-8939-d3765b9dbd58",
+        "type": "scale",
+        "hex": "#FF7E27",
+        "name": "Nineteen Eighty Four",
+        "value": 0
+       }
+      ],
+      "note": "",
+      "showNoteWhenEmpty": false,
+      "xColumn": "_time",
+      "yColumn": "_value",
+      "shadeBelow": true
+     }
+    }
+   },
+   {
+    "type": "view",
+    "id": "048c31dd1207e000",
+    "attributes": {
+     "name": "Memory Usage",
+     "properties": {
+      "shape": "chronograf-v2",
+      "queries": [
+       {
+        "text": "table = from(bucket: \"resources\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"usedByNodes\")\n  |> filter(fn: (r) => r._field == \"freeMemory\" or r._field == \"totalMemory\")\n  |> group(columns: [\"_time\", \"nodeName\"], mode:\"by\")\n  \nmaxLines = table |> max()\nminLines = table |> min()\n\njoin(tables: {totalMemory: maxLines, freeMemory: minLines}, on: [\"_time\", \"nodeName\"])\n  |> map(fn: (r) => ({\n    _value: 100.0 - (r._value_freeMemory * 100.0 / r._value_totalMemory),\n    _time: r._time,\n    _start: r._start_freeMemory,\n    nodeName: r.nodeName}))\n  |> group(columns: [\"_start\"], mode:\"by\") // should do the same as window(every: inf) but that doesn't work\n  |> group(columns: [\"nodeName\"], mode:\"by\")\n  |> yield()\n\n\n",
+        "editMode": "advanced",
+        "name": "",
+        "builderConfig": {
+         "buckets": [],
+         "tags": [
+          {
+           "key": "_measurement",
+           "values": []
+          }
+         ],
+         "functions": [],
+         "aggregateWindow": {
+          "period": "auto"
+         }
+        }
+       }
+      ],
+      "axes": {
+       "x": {
+        "bounds": [
+         "",
+         ""
+        ],
+        "label": "",
+        "prefix": "",
+        "suffix": "",
+        "base": "10",
+        "scale": "linear"
+       },
+       "y": {
+        "bounds": [
+         "0",
+         "100"
+        ],
+        "label": "",
+        "prefix": "",
+        "suffix": "",
+        "base": "10",
+        "scale": "linear"
+       }
+      },
+      "type": "xy",
+      "legend": {},
+      "geom": "monotoneX",
+      "colors": [
+       {
+        "id": "9d6e2e13-8e6b-401d-8e40-08e7f6c0d172",
+        "type": "scale",
+        "hex": "#31C0F6",
+        "name": "Nineteen Eighty Four",
+        "value": 0
+       },
+       {
+        "id": "8e542f64-de19-4b58-968f-16fac975cda7",
+        "type": "scale",
+        "hex": "#A500A5",
+        "name": "Nineteen Eighty Four",
+        "value": 0
+       },
+       {
+        "id": "452bea3b-2ba1-41ee-8939-d3765b9dbd58",
+        "type": "scale",
+        "hex": "#FF7E27",
+        "name": "Nineteen Eighty Four",
+        "value": 0
+       }
+      ],
+      "note": "",
+      "showNoteWhenEmpty": false,
+      "xColumn": "_time",
+      "yColumn": "_value",
+      "shadeBelow": true
+     }
+    }
+   },
+   {
+    "type": "view",
+    "id": "048c89b88a47e000",
+    "attributes": {
+     "name": "Uptime Usage",
+     "properties": {
+      "shape": "chronograf-v2",
+      "type": "table",
+      "queries": [
+       {
+        "text": "from(bucket: \"resources\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"usedByNodes\")\n  |> filter(fn: (r) => r._field == \"machineUptime\")\n  |> group(columns: [\"nodeName\"], mode:\"by\")\n  |> last()\n  |> map(fn: (r) => ({ r with _value: \n      if r._value < 60 then \"${string(v: r._value)}s\" else\n      if r._value < 3600 then \"${string(v: int(v: r._value / 60.0))}m\" else\n      if r._value < 216000 then \"${string(v: int(v: r._value / 3600.0))}h\" else \"${string(v: r._value)}s\"}))\n  |> group(columns: [\"nodeName\"], mode:\"by\")\n  |> keep(columns: [\"nodeName\", \"_value\", \"_stop\"])\n  |> rename(columns: {_value: \"uptime\"})\n  |> group(columns: [\"_stop\"], mode:\"by\")\n",
+        "editMode": "advanced",
+        "name": "",
+        "builderConfig": {
+         "buckets": [],
+         "tags": [
+          {
+           "key": "_measurement",
+           "values": []
+          }
+         ],
+         "functions": [],
+         "aggregateWindow": {
+          "period": "auto"
+         }
+        }
+       }
+      ],
+      "colors": [
+       {
+        "id": "base",
+        "type": "text",
+        "hex": "#00C9FF",
+        "name": "laser",
+        "value": 0
+       }
+      ],
+      "tableOptions": {
+       "verticalTimeAxis": true,
+       "sortBy": {
+        "internalName": "",
+        "displayName": "",
+        "visible": false
+       },
+       "wrapping": "",
+       "fixFirstColumn": false
+      },
+      "fieldOptions": [
+       {
+        "internalName": "",
+        "displayName": "",
+        "visible": true
+       },
+       {
+        "internalName": "result",
+        "displayName": "result",
+        "visible": true
+       },
+       {
+        "internalName": "table",
+        "displayName": "table",
+        "visible": true
+       },
+       {
+        "internalName": "_stop",
+        "displayName": "_stop",
+        "visible": false
+       },
+       {
+        "internalName": "uptime",
+        "displayName": "uptime",
+        "visible": true
+       },
+       {
+        "internalName": "nodeName",
+        "displayName": "nodeName",
+        "visible": true
+       }
+      ],
+      "timeFormat": "YYYY-MM-DD HH:mm:ss",
+      "decimalPlaces": {
+       "isEnforced": false,
+       "digits": 2
+      },
+      "note": "",
+      "showNoteWhenEmpty": false
+     }
+    }
+   },
+   {
+    "type": "view",
+    "id": "048d9b5959553000",
+    "attributes": {
+     "name": "Domains booting",
+     "properties": {
+      "shape": "chronograf-v2",
+      "type": "histogram",
+      "queries": [
+       {
+        "text": "from(bucket: \"resources\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"domains\" and r.type == \"boot\")\n  |> group(columns: [\"type\", \"nodeName\", \"_value\"], mode:\"by\")\n\n  ",
+        "editMode": "advanced",
+        "name": "",
+        "builderConfig": {
+         "buckets": [],
+         "tags": [
+          {
+           "key": "_measurement",
+           "values": []
+          }
+         ],
+         "functions": [],
+         "aggregateWindow": {
+          "period": "auto"
+         }
+        }
+       }
+      ],
+      "colors": [
+       {
+        "id": "f98566b0-eaf3-42a3-823b-27c7a41b0251",
+        "type": "scale",
+        "hex": "#31C0F6",
+        "name": "Nineteen Eighty Four",
+        "value": 0
+       },
+       {
+        "id": "eab43bd3-4f62-45f5-9286-7d6a38cacc9d",
+        "type": "scale",
+        "hex": "#A500A5",
+        "name": "Nineteen Eighty Four",
+        "value": 0
+       },
+       {
+        "id": "85c86409-9150-47b5-bc07-41a8f8c689eb",
+        "type": "scale",
+        "hex": "#FF7E27",
+        "name": "Nineteen Eighty Four",
+        "value": 0
+       }
+      ],
+      "xColumn": "_time",
+      "fillColumns": [
+       "_value",
+       "nodeName",
+       "type"
+      ],
+      "xAxisLabel": "",
+      "position": "stacked",
+      "binCount": 30,
+      "note": "",
+      "showNoteWhenEmpty": false
+     }
+    }
+   },
+   {
+    "type": "view",
+    "id": "048da23bdc953000",
+    "attributes": {
+     "name": "Domains restarts",
+     "properties": {
+      "shape": "chronograf-v2",
+      "type": "histogram",
+      "queries": [
+       {
+        "text": "from(bucket: \"resources\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"domains\" and r.type == \"restart\")\n  |> duplicate(column: \"_value\", as: \"domainName\")\n  |> group(columns: [\"domainName\", \"nodeName\"], mode:\"by\")\n\n  \n\n  ",
+        "editMode": "advanced",
+        "name": "",
+        "builderConfig": {
+         "buckets": [],
+         "tags": [
+          {
+           "key": "_measurement",
+           "values": []
+          }
+         ],
+         "functions": [],
+         "aggregateWindow": {
+          "period": "auto"
+         }
+        }
+       }
+      ],
+      "colors": [
+       {
+        "id": "24eba4df-df16-4138-bd0f-de1ef2a51d4d",
+        "type": "scale",
+        "hex": "#31C0F6",
+        "name": "Nineteen Eighty Four",
+        "value": 0
+       },
+       {
+        "id": "b181e915-da1d-4bfe-9c9e-495d5e84d837",
+        "type": "scale",
+        "hex": "#A500A5",
+        "name": "Nineteen Eighty Four",
+        "value": 0
+       },
+       {
+        "id": "c0b87db9-30db-4b78-bc8d-6e03d30ea101",
+        "type": "scale",
+        "hex": "#FF7E27",
+        "name": "Nineteen Eighty Four",
+        "value": 0
+       }
+      ],
+      "xColumn": "_time",
+      "fillColumns": [
+       "nodeName",
+       "domainName"
+      ],
+      "xAxisLabel": "",
+      "position": "stacked",
+      "binCount": 30,
+      "note": "",
+      "showNoteWhenEmpty": false
+     }
+    }
+   }
+  ]
+ },
+ "labels": []
+}
