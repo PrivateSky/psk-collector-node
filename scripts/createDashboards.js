@@ -169,7 +169,7 @@ function writeDashboardLinksToMonitorUIConfig() {
     const configForMonitorUI = dashboardInfos.map(dashboard => {
        return {
            name: dashboard.name,
-           link: dashboard.links.self
+           link: `${config.databaseEndpoint}/org/${config.organizationId}/dashboards/${dashboard.id}`
        }
     }).reduce((acc, currentValue) => {
         acc[currentValue.name] = currentValue.link;
