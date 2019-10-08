@@ -129,7 +129,7 @@ function sendViewForCell(dashboardId, cellId, viewData) {
         hostname: '127.0.0.1',
         port: 9999,
         path: `${baseApi}/${dashboardId}/cells/${cellId}`,
-        method: 'POST',
+        method: 'PATCH',
         headers: {
             'Content-Type': 'application/json',
             'Content-Length': data.length,
