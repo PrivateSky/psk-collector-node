@@ -1,6 +1,7 @@
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
+const config = require('../config.json');
 
 const baseApi = '/api/v2/setup';
 const configPath = '/root/.influxdbv2/psk-init-config.json';
@@ -13,7 +14,7 @@ if(fs.existsSync(configPath)) {
 
 const data = JSON.stringify({
     bucket: 'base',
-    org: 'PrivateSky',
+    org: config.organizationName,
     username: 'admin',
     password: 'pskadmin',
     retentionPeriodHrs: 0,
