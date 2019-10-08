@@ -64,6 +64,10 @@ function createDashboard(fileName) {
         })
     });
 
+    req.on('error', (error) => {
+        console.error('error dashboard request', error);
+    });
+
     req.end(data);
 }
 
@@ -99,12 +103,18 @@ function createCellsForDashboard(dashboardId, dashboardData) {
 
         const req = http.request(options, (res) => {
             res.on('data', (resData) => {
+                console.log('got data', resData);
                 const response = JSON.parse(resData);
 
                 const cellId = response.id;
                 console.log('response cell: ', response);
                 sendViewForCell(dashboardId, cellId, cellObj.view);
-            })
+            });
+
+        });
+
+        req.on('error', (error) => {
+            console.error('error cell request', error);
         });
 
         req.end(data);
@@ -127,10 +137,15 @@ function sendViewForCell(dashboardId, cellId, viewData) {
 
     const req = http.request(options, (res) => {
         res.on('data', (resData) => {
+            console.log('got data from view call');
             const response = JSON.parse(resData);
 
             console.log('response view: ', response);
         })
+    });
+
+    req.on('error', (error) => {
+        console.error('error view request', error);
     });
 
     req.end(data);
