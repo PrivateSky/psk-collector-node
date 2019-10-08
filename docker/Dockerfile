@@ -7,7 +7,9 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get -y install nodejs
 
 RUN git clone -b integration-docker https://github.com/PrivateSky/psk-collector-node.git
 RUN git clone https://github.com/PrivateSky/psk-monitoring-ui.git
-RUN echo 'influxd & cd /psk-collector-node && npm install && node ./scripts/initCredentials.js && node ./scripts/createDashboards.js && npm start & cd /psk-monitoring-ui/wc-monitor && npm install --unsafe-perm && npm run start-prod' >> startup-script.sh
+RUN echo 'influxd & cd /psk-collector-node && npm install && node ./scripts/initCredentials.js && node ./scripts/createDashboards.js' >> prepareDB.sh
+RUN echo 'cd /psk-collector-node && npm start & cd /psk-monitoring-ui/wc-monitor && npm install --unsafe-perm && npm run start-prod' >> start.sh
+RUN echo './prepareDB.sh & \n wait $! ./start.sh \n' >> startup-script.sh
 
 EXPOSE 9999
 EXPOSE 3333

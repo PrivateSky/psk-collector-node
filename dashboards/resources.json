@@ -2,14 +2,14 @@
  "meta": {
   "version": "1",
   "type": "dashboard",
-  "name": "Resource usage-Template",
-  "description": "template created from dashboard: Resource usage"
+  "name": "Resources-Template",
+  "description": "template created from dashboard: Resources"
  },
  "content": {
   "data": {
    "type": "dashboard",
    "attributes": {
-    "name": "Resource usage",
+    "name": "Resources",
     "description": ""
    },
    "relationships": {

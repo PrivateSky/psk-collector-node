@@ -17,6 +17,9 @@ if (!fs.existsSync(configPath)) {
 const authConfig = JSON.parse(fs.readFileSync(configPath).toString());
 const localDashboardTemplates = fs.readdirSync(dashboardTemplatesDir);
 
+let dashboardCount = localDashboardTemplates.length;
+const dashboardInfos = [];
+
 localDashboardTemplates.forEach(createDashboard);
 
 
@@ -32,6 +35,7 @@ localDashboardTemplates.forEach(createDashboard);
 // });
 
 function createDashboard(fileName) {
+    dashboardCount -= 1;
     const currentFilePath = path.join(dashboardTemplatesDir, fileName);
     const dashboardDesc = JSON.parse(fs.readFileSync(currentFilePath).toString());
 
@@ -59,6 +63,12 @@ function createDashboard(fileName) {
         res.on('data', (resData) => {
             const response = JSON.parse(resData.toString());
             const dashboardId = response.id;
+
+            dashboardInfos.push(response);
+
+            if(dashboardCount === 0) {
+                console.log('dashboard INFOS', dashboardInfos);
+            }
 
             createCellsForDashboard(dashboardId, dashboardDesc);
         })
@@ -136,8 +146,6 @@ function sendViewForCell(dashboardId, cellId, viewData) {
             'Authorization': `Token ${authToken}`
         }
     };
-
-    console.log('sending view', data, options);
 
     const req = http.request(options, (res) => {
         res.on('data', (resData) => {
