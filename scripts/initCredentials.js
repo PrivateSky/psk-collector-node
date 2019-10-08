@@ -42,6 +42,12 @@ const req = http.request(options, (res) => {
 
             writeTokenToLocalConfigSync(token);
         }
+
+        if(response.org) {
+            const orgId = response.org.id;
+
+            writeOrgIdToLocalConfigSync(orgId);
+        }
     })
 });
 
@@ -54,6 +60,14 @@ function writeTokenToLocalConfigSync(token) {
     const config = JSON.parse(fs.readFileSync(configPath));
 
     config.databaseAuthToken = token || "";
+    fs.writeFileSync(configPath, JSON.stringify(config,  null, 2));
+}
+
+function writeOrgIdToLocalConfigSync(orgId) {
+    const configPath = path.resolve(path.join(__dirname, '../config.json'));
+    const config = JSON.parse(fs.readFileSync(configPath));
+
+    config.organizationId = orgId || "";
     fs.writeFileSync(configPath, JSON.stringify(config,  null, 2));
 }
 
