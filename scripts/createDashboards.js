@@ -178,7 +178,7 @@ function writeDashboardLinksToMonitorUIConfig() {
     }, {});
 
     const outputForMonitorUI = `export const chartPages = ${JSON.stringify(configForMonitorUI, null, 2)}`;
-    fs.writeFileSync('/psk-monitoring-ui/wc-monitor/src/ChartPages.config.ts');
+    fs.writeFileSync('/psk-monitoring-ui/wc-monitor/src/ChartPages.config.ts', outputForMonitorUI);
 
     console.log('writing', configForMonitorUI);
 }
