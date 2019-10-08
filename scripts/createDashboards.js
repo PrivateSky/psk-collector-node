@@ -69,6 +69,7 @@ function createDashboard(fileName) {
 
             if(dashboardCount === 0) {
                 console.log('dashboard INFOS', dashboardInfos);
+                writeDashboardLinksToMonitorUIConfig();
             }
 
             createCellsForDashboard(dashboardId, dashboardDesc);
@@ -162,5 +163,20 @@ function sendViewForCell(dashboardId, cellId, viewData) {
     });
 
     req.end(data);
+}
+
+function writeDashboardLinksToMonitorUIConfig() {
+    const configForMonitorUI = dashboardInfos.map(dashboard => {
+       return {
+           name: dashboard.name,
+           link: links.self
+       }
+    }).reduce((acc, currentValue) => {
+        acc[currentValue.name] = currentValue.link;
+
+        return acc;
+    }, {});
+
+    console.log('writing', configForMonitorUI);
 }
 
