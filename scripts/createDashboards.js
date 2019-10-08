@@ -111,15 +111,15 @@ function createCellsForDashboard(dashboardId, dashboardData) {
             }
         };
 
-        console.log('sending cell', data, options);
+        // console.log('sending cell', data, options);
 
         const req = http.request(options, (res) => {
             res.on('data', (resData) => {
-                console.log('got data from cell call', resData.toString());
+                // console.log('got data from cell call', resData.toString());
                 const response = JSON.parse(resData.toString());
 
                 const cellId = response.id;
-                console.log('response cell: ', response);
+                // console.log('response cell: ', response);
                 sendViewForCell(dashboardId, cellId, cellObj.view);
             });
 
@@ -149,10 +149,10 @@ function sendViewForCell(dashboardId, cellId, viewData) {
 
     const req = http.request(options, (res) => {
         res.on('data', (resData) => {
-            console.log('got data from view call', resData.toString());
+            // console.log('got data from view call', resData.toString());
             const response = JSON.parse(resData.toString());
 
-            console.log('response view: ', response);
+            // console.log('response view: ', response);
         })
     });
 
