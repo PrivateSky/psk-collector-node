@@ -42,7 +42,6 @@ middleware.on('logs', (channel, data) => {
  */
 receiver.on('message', function (message) {
     message = message.toString();
-    console.log('message: ', message);
     const parsedMessage = JSON.parse(message);
 
     let topic = parsedMessage.topic;
