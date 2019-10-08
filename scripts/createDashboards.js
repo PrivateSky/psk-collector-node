@@ -128,7 +128,7 @@ function sendViewForCell(dashboardId, cellId, viewData) {
     const options = {
         hostname: '127.0.0.1',
         port: 9999,
-        path: `${baseApi}/${dashboardId}/cells/${cellId}`,
+        path: `${baseApi}/${dashboardId}/cells/${cellId}/view`,
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/json',
