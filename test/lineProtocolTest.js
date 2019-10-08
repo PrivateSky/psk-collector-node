@@ -114,6 +114,8 @@ describe('LineProtocol', function () {
             };
             const lineResult = lineProtocolUtils.toLineProtocol(lineProtocolArguments);
 
+            console.log(lineResult)
+
             expect(lineResult).to.equal(`pskLogs,tag1=some\\ tag field1=1 ${timestamp}`);
         });
 
