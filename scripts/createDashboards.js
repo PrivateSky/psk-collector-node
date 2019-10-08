@@ -6,7 +6,6 @@ const config = require('../config');
 const authToken = config.databaseAuthToken;
 
 const configPath = '/root/.influxdbv2/psk-init-config.json';
-// const configPath = './psk-init-config.json';
 const baseApi = '/api/v2/dashboards';
 const dashboardTemplatesDir = path.resolve(path.join(__dirname, '../dashboards'));
 
@@ -18,6 +17,7 @@ const authConfig = JSON.parse(fs.readFileSync(configPath).toString());
 const localDashboardTemplates = fs.readdirSync(dashboardTemplatesDir);
 
 let dashboardCount = localDashboardTemplates.length;
+console.log("INITIAL LENGTH", dashboardCount);
 const dashboardInfos = [];
 
 localDashboardTemplates.forEach(createDashboard);
@@ -60,6 +60,7 @@ function createDashboard(fileName) {
 
     const req = http.request(options, (res) => {
         res.on('data', (resData) => {
+            console.log("DESCRESC")
             dashboardCount -= 1;
             const response = JSON.parse(resData.toString());
             const dashboardId = response.id;
