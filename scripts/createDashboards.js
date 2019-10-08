@@ -35,7 +35,6 @@ localDashboardTemplates.forEach(createDashboard);
 // });
 
 function createDashboard(fileName) {
-    dashboardCount -= 1;
     const currentFilePath = path.join(dashboardTemplatesDir, fileName);
     const dashboardDesc = JSON.parse(fs.readFileSync(currentFilePath).toString());
 
@@ -61,6 +60,7 @@ function createDashboard(fileName) {
 
     const req = http.request(options, (res) => {
         res.on('data', (resData) => {
+            dashboardCount -= 1;
             const response = JSON.parse(resData.toString());
             const dashboardId = response.id;
 
