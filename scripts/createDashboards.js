@@ -101,6 +101,8 @@ function createCellsForDashboard(dashboardId, dashboardData) {
             }
         };
 
+        console.log('sending cell', data, options);
+
         const req = http.request(options, (res) => {
             res.on('data', (resData) => {
                 console.log('got data from cell call', resData.toString());
@@ -134,6 +136,8 @@ function sendViewForCell(dashboardId, cellId, viewData) {
             'Authorization': `Token ${authToken}`
         }
     };
+
+    console.log('sending view', data, options);
 
     const req = http.request(options, (res) => {
         res.on('data', (resData) => {
