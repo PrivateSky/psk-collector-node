@@ -57,7 +57,7 @@ function createDashboard(fileName) {
 
     const req = http.request(options, (res) => {
         res.on('data', (resData) => {
-            const response = JSON.parse(resData);
+            const response = JSON.parse(resData.toString());
             const dashboardId = response.id;
 
             createCellsForDashboard(dashboardId, dashboardDesc);
@@ -103,8 +103,8 @@ function createCellsForDashboard(dashboardId, dashboardData) {
 
         const req = http.request(options, (res) => {
             res.on('data', (resData) => {
-                console.log('got data', resData);
-                const response = JSON.parse(resData);
+                console.log('got data', resData.toString());
+                const response = JSON.parse(resData.toString());
 
                 const cellId = response.id;
                 console.log('response cell: ', response);
@@ -137,8 +137,8 @@ function sendViewForCell(dashboardId, cellId, viewData) {
 
     const req = http.request(options, (res) => {
         res.on('data', (resData) => {
-            console.log('got data from view call');
-            const response = JSON.parse(resData);
+            console.log('got data from view call', resData.toString());
+            const response = JSON.parse(resData.toString());
 
             console.log('response view: ', response);
         })
