@@ -169,13 +169,16 @@ function writeDashboardLinksToMonitorUIConfig() {
     const configForMonitorUI = dashboardInfos.map(dashboard => {
        return {
            name: dashboard.name,
-           link: `${config.databaseEndpoint}/org/${config.organizationId}/dashboards/${dashboard.id}`
+           link: `${config.databaseEndpoint}/orgs/${config.organizationId}/dashboards/${dashboard.id}?lower=now%28%29%20-%202h&present=true`
        }
     }).reduce((acc, currentValue) => {
         acc[currentValue.name] = currentValue.link;
 
         return acc;
     }, {});
+
+    const outputForMonitorUI = `export const chartPages = ${JSON.stringify(configForMonitorUI, null, 2)}`;
+    fs.writeFileSync('/root/psk-monitoring-ui/wc-monitor/src/ChartsPages.config.ts');
 
     console.log('writing', configForMonitorUI);
 }
