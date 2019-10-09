@@ -1,6 +1,7 @@
 {
   "organizationName": "PrivateSky",
-  "databaseEndpoint": "http://127.0.0.1:9999",
-  "zeroMQBindAddress": "tcp://127.0.0.1:5558",
+  "organizationId": "",
+  "databaseEndpoint": "http://localhost:9999",
+  "zeroMQBindAddress": "tcp://*:5558",
   "databaseAuthToken": ""
 }

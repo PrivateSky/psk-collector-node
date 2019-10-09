@@ -50,4 +50,5 @@ receiver.on('message', function (message) {
 
 });
 
+console.log('BINDING ADDRESS', config.zeroMQBindAddress);
 receiver.bindSync(config.zeroMQBindAddress);
