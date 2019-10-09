@@ -177,6 +177,6 @@ function writeDashboardLinksToMonitorUIConfig() {
 }
 
 function copyMonitorUIConfigToMonitorProject() {
-    fs.copyFileSync(monitorUIPersistedConfigPath, '/psk-monitoring-ui/wc-monitor/src/ChartPages.config.ts)');
+    fs.copyFileSync(monitorUIPersistedConfigPath, '/psk-monitoring-ui/wc-monitor/src/ChartPages.config.ts');
 }
 
