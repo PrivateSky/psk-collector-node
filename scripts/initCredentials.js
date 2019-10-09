@@ -37,7 +37,7 @@ const req = http.request(options, (res) => {
         const response = JSON.parse(resData);
 
         fs.writeFileSync(configPath, JSON.stringify(response));
-        // console.log('response: ', response);
+
         if(response.auth) {
             const token = response.auth.token;
 

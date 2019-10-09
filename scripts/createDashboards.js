@@ -38,8 +38,6 @@ function createDashboard(fileName) {
         orgID: authConfig.org.id
     });
 
-    console.log('sending ', data);
-
     const options = {
         hostname: '127.0.0.1',
         port: 9999,
@@ -61,7 +59,6 @@ function createDashboard(fileName) {
             dashboardInfos.push(response);
 
             if(dashboardCount === 0) {
-                console.log('dashboard INFOS', dashboardInfos);
                 writeDashboardLinksToMonitorUIConfig();
             }
 
@@ -92,7 +89,6 @@ function createCellsForDashboard(dashboardId, dashboardData) {
 
 
     for (const cellObj of cellsMapById.values()) {
-        console.log('sending cell not view', cellObj.cell);
         const data = JSON.stringify(cellObj.cell);
         const options = {
             hostname: '127.0.0.1',
@@ -106,15 +102,12 @@ function createCellsForDashboard(dashboardId, dashboardData) {
             }
         };
 
-        // console.log('sending cell', data, options);
 
         const req = http.request(options, (res) => {
             res.on('data', (resData) => {
-                // console.log('got data from cell call', resData.toString());
                 const response = JSON.parse(resData.toString());
-
                 const cellId = response.id;
-                // console.log('response cell: ', response);
+
                 sendViewForCell(dashboardId, cellId, cellObj.view);
             });
 
@@ -144,10 +137,7 @@ function sendViewForCell(dashboardId, cellId, viewData) {
 
     const req = http.request(options, (res) => {
         res.on('data', (resData) => {
-            // console.log('got data from view call', resData.toString());
             const response = JSON.parse(resData.toString());
-
-            // console.log('response view: ', response);
         })
     });
 
