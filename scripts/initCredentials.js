@@ -9,6 +9,7 @@ const configPath = '/root/.influxdbv2/psk-init-config.json';
 if(fs.existsSync(configPath)) {
     const config = JSON.parse(fs.readFileSync(configPath).toString());
     writeTokenToLocalConfigSync(config.auth.token);
+    writeOrgIdToLocalConfigSync(config.org.id);
     process.exit(0);
 }
 

@@ -6,6 +6,7 @@ const config = require('../config');
 const authToken = config.databaseAuthToken;
 
 const configPath = '/root/.influxdbv2/psk-init-config.json';
+const monitorUIPersistedConfigPath  = '/root/.influxdbv2/ChartPages.config.ts';
 const baseApi = '/api/v2/dashboards';
 const dashboardTemplatesDir = path.resolve(path.join(__dirname, '../dashboards'));
 
@@ -13,26 +14,19 @@ if (!fs.existsSync(configPath)) {
     throw new Error('Run initCredentials script first');
 }
 
+if (fs.existsSync(monitorUIPersistedConfigPath)) {
+    copyMonitorUIConfigToMonitorProject();
+    process.exit(0);
+}
+
 const authConfig = JSON.parse(fs.readFileSync(configPath).toString());
 const localDashboardTemplates = fs.readdirSync(dashboardTemplatesDir);
 
 let dashboardCount = localDashboardTemplates.length;
-console.log("INITIAL LENGTH", dashboardCount);
 const dashboardInfos = [];
 
 localDashboardTemplates.forEach(createDashboard);
 
-
-// const cellsData = {
-//     name: dashboardDesc.content.data.attributes.name,
-//     orgID: authConfig.org.id,
-//     cells: cells
-// };
-
-// console.log('cells', cellsMapById);
-
-// console.log('and cells', cellsData);
-// });
 
 function createDashboard(fileName) {
     const currentFilePath = path.join(dashboardTemplatesDir, fileName);
@@ -60,7 +54,6 @@ function createDashboard(fileName) {
 
     const req = http.request(options, (res) => {
         res.on('data', (resData) => {
-            console.log("DESCRESC")
             dashboardCount -= 1;
             const response = JSON.parse(resData.toString());
             const dashboardId = response.id;
@@ -178,8 +171,12 @@ function writeDashboardLinksToMonitorUIConfig() {
     }, {});
 
     const outputForMonitorUI = `export const chartPages = ${JSON.stringify(configForMonitorUI, null, 2)}`;
-    fs.writeFileSync('/psk-monitoring-ui/wc-monitor/src/ChartPages.config.ts', outputForMonitorUI);
+    fs.writeFileSync(monitorUIPersistedConfigPath, outputForMonitorUI);
 
-    console.log('writing', configForMonitorUI);
+    copyMonitorUIConfigToMonitorProject();
+}
+
+function copyMonitorUIConfigToMonitorProject() {
+    fs.copyFileSync(monitorUIPersistedConfigPath, '/psk-monitoring-ui/wc-monitor/src/ChartPages.config.ts)');
 }
 
