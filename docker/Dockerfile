@@ -5,7 +5,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get -y update && apt-get -y upgrade && ap
 RUN curl -sL https://deb.nodesource.com/setup_12.x | bash -
 RUN DEBIAN_FRONTEND=noninteractive apt-get -y install nodejs
 
-RUN git clone -b integration-docker https://github.com/PrivateSky/psk-collector-node.git
+RUN git clone https://github.com/PrivateSky/psk-collector-node.git
 RUN git clone https://github.com/PrivateSky/psk-monitoring-ui.git
 RUN echo 'influxd & cd /psk-collector-node && npm install && node ./scripts/initCredentials.js && node ./scripts/createDashboards.js' >> prepareDB.sh
 RUN echo 'cd /psk-collector-node && npm start & cd /psk-monitoring-ui/wc-monitor && npm install --unsafe-perm && npm run start' >> start.sh
